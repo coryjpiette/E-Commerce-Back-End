@@ -54,7 +54,7 @@ router.get('/:id', (req, res) => {
 
         .then(dbProductData => {
             if (!dbProductData) {
-                res.status(404).json({ message: 'No product found with this id' });
+                res.status(404).json({ message: 'Invalid ID. No product found.' });
                 return;
             }
             res.json(dbProductData);
@@ -85,7 +85,7 @@ router.post('/', (req, res) => {
             res.status(200).json(product);
         })
         .then((productTagIds) => res.status(200).json(productTagIds))
-        .catch((err) => {
+           .catch((err) => {
             console.log(err);
             res.status(400).json(err);
         });
@@ -102,8 +102,9 @@ router.put('/:id', (req, res) => {
         },
     })
         .then((product) => {
+
             // FIND all tags 
-            return ProductTag.findAll({ where: { product_id: req.params.id } });
+                 return ProductTag.findAll({ where: { product_id: req.params.id } });
         })
         .then((productTags) => {
 
@@ -122,7 +123,7 @@ router.put('/:id', (req, res) => {
                 });
                 
 
-            // remove correct ones
+            // remove good ids
             const productTagsToRemove = productTags
                 .filter(({ tag_id }) => !req.body.tagIds.includes(tag_id))
                 .map(({ id }) => id);
@@ -130,5 +131,42 @@ router.put('/:id', (req, res) => {
             // run both
             return Promise.all([
                 ProductTag.destroy({ where: { id: productTagsToRemove } }),
-                ProductTag.bulkCreate(newProductTags),
+                   ProductTag.bulkCreate(newProductTags),
             ]); 
+
+
+
+
+        })
+        .then((updatedProductTags) => res.json(updatedProductTags))
+        .catch((err) => {
+
+            
+            res.status(400).json(err);
+        });
+});
+
+router.delete('/:id', (req, res) => {
+
+
+    // remove oduct by id
+    Product.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(dbProductData => {
+            if (!dbProductData) {
+                res.status(404).json({ message: 'Invalid ID. No product found.' });
+                return;
+            }
+            res.json(dbProductData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
+
+
+module.exports = router;
