@@ -7,11 +7,11 @@ const productTagData = [
     },
     {
         product_id: 1,
-        
+
         tag_id: 7,
     },
     {
-          product_id: 1,
+        product_id: 1,
         tag_id: 8,
     },
     {
