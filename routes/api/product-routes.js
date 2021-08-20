@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
         .then(dbProductData => res.json(dbProductData))
         .catch(err => {
             console.log(err);
-            
+
             res.status(500).json(err);
         });
 });
@@ -71,7 +71,7 @@ router.post('/', (req, res) => {
 
     Product.create(req.body)
         .then((product) => {
-            // Create pairings if there's a product tag
+
 
             if (req.body.tagIds.length) {
                 const productTagIdArr = req.body.tagIds.map((tag_id) => {
@@ -86,7 +86,7 @@ router.post('/', (req, res) => {
             res.status(200).json(product);
         })
         .then((productTagIds) => res.status(200).json(productTagIds))
-           .catch((err) => {
+        .catch((err) => {
             console.log(err);
             res.status(400).json(err);
         });
@@ -105,7 +105,7 @@ router.put('/:id', (req, res) => {
         .then((product) => {
 
             // FIND all tags 
-                 return ProductTag.findAll({ where: { product_id: req.params.id } });
+            return ProductTag.findAll({ where: { product_id: req.params.id } });
         })
         .then((productTags) => {
 
@@ -114,7 +114,7 @@ router.put('/:id', (req, res) => {
 
             // CREATE new tag_ids
 
-                   const newProductTags = req.body.tagIds
+            const newProductTags = req.body.tagIds
                 .filter((tag_id) => !productTagIds.includes(tag_id))
                 .map((tag_id) => {
                     return {
@@ -122,7 +122,7 @@ router.put('/:id', (req, res) => {
                         tag_id,
                     };
                 });
-                
+
 
             // remove good ids
             const productTagsToRemove = productTags
@@ -132,8 +132,8 @@ router.put('/:id', (req, res) => {
             // run both
             return Promise.all([
                 ProductTag.destroy({ where: { id: productTagsToRemove } }),
-                   ProductTag.bulkCreate(newProductTags),
-            ]); 
+                ProductTag.bulkCreate(newProductTags),
+            ]);
 
 
 
@@ -142,7 +142,7 @@ router.put('/:id', (req, res) => {
         .then((updatedProductTags) => res.json(updatedProductTags))
         .catch((err) => {
 
-            
+
             res.status(400).json(err);
         });
 });
@@ -150,7 +150,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
 
 
-    // remove oduct by id
+    // remove product by id
     Product.destroy({
         where: {
             id: req.params.id
