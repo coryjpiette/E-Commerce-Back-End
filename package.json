@@ -2,9 +2,12 @@
   "name": "e-commerce-back-end",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "watch": "nodemon server.js",
+    "seed": "node seeds/index.js"
   },
   "repository": {
     "type": "git",
@@ -16,10 +19,16 @@
     "url": "https://github.com/coryjpiette/E-Commerce-Back-End/issues"
   },
   "homepage": "https://github.com/coryjpiette/E-Commerce-Back-End#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
   "dependencies": {
-    "dotenv": "^8.2.0",
+    "dotenv": "^8.6.0",
     "express": "^4.17.1",
     "mysql2": "^2.1.0",
-    "sequelize": "^6.3.3"
+    "seed": "^0.4.4",
+    "sequelize": "^6.6.5",
+    "start": "^5.1.0",
+    "watch": "^1.0.2"
   }
 }
