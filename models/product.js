@@ -5,7 +5,7 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
 // initialize product model
-class Product extends Model {}
+class Product extends Model { }
 
 // set up fields and rules for Product model
 Product.init(
@@ -13,7 +13,7 @@ Product.init(
         // id column
         id: {
             type: DataTypes.INTEGER,
-     allowNull: false,
+            allowNull: false,
             primaryKey: true,
             autoIncrement: true
         },
@@ -24,7 +24,7 @@ Product.init(
         },
         //  price column
         price: {
-            type: DataTypes.DECIMAL(10,2),
+            type: DataTypes.DECIMAL(10, 2),
             allowNull: false,
             validate: {
                 isDecimal: true
@@ -32,10 +32,10 @@ Product.init(
         },
         // stock column
         stock: {
-             type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: 10,
-              validate: {
+            validate: {
                 isNumeric: true
             }
         },
@@ -45,7 +45,7 @@ Product.init(
             references: {
                 model: "category",
                 key: "id"
-          }
+            }
         }
     },
     {
