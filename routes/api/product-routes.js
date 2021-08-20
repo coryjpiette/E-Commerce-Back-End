@@ -1,10 +1,6 @@
 
-
-
 const router = require('express').Router();
 const { Product, Category, Tag, ProductTag } = require('../../models');
-
-
 
 // GET products
 router.get('/', (req, res) => {
@@ -52,7 +48,6 @@ router.get('/:id', (req, res) => {
         ]
     })
 
-
         .then(dbProductData => {
             if (!dbProductData) {
                 res.status(404).json({ message: 'Invalid ID. No product found.' });
@@ -93,7 +88,6 @@ router.post('/', (req, res) => {
 });
 
 // updating product
-
 router.put('/:id', (req, res) => {
 
     // product data
