@@ -1,15 +1,13 @@
-
-
 const router = require('express').Router();
-const { Tag, Product, ProductTag } = require('../../models');
+const { Category, Product } = require('../../models');
 
-
+// The `/api/categories` endpoint
 
 router.get('/', (req, res) => {
-    // FIND all tags
-
-    Tag.findAll({
-        attributes: ['id', 'tag_name'],
+    // find all categories
+    // be sure to include its associated Products
+    Category.findAll({
+        attributes: ['id', 'category_name'],
         include: [
             {
                 model: Product,
@@ -17,22 +15,21 @@ router.get('/', (req, res) => {
             }
         ]
     })
-        .then(dbTagData => res.json(dbTagData))
+        .then(dbCategoryData => res.json(dbCategoryData))
         .catch(err => {
-
             console.log(err);
             res.status(500).json(err);
         });
 });
 
 router.get('/:id', (req, res) => {
-    // FIND tags by iD
-
-    Tag.findOne({
+    // find one category by its `id` value
+    // be sure to include its associated Products
+    Category.findOne({
         where: {
             id: req.params.id
         },
-        attributes: ['id', 'tag_name'],
+        attributes: ['id', 'category_name'],
         include: [
             {
                 model: Product,
@@ -40,12 +37,12 @@ router.get('/:id', (req, res) => {
             }
         ]
     })
-        .then(dbTagData => {
-            if (!dbTagData) {
-                res.status(404).json({ message: 'Invalid ID. No tag found' });
+        .then(dbCategoryData => {
+            if (!dbCategoryData) {
+                res.status(404).json({ message: 'No category found with this id' });
                 return;
             }
-            res.json(dbTagData);
+            res.json(dbCategoryData);
         })
         .catch(err => {
             console.log(err);
@@ -54,11 +51,11 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    // create a new tag
-    Tag.create({
-        tag_name: req.body.tag_name
+    //new category
+    Category.create({
+        category_name: req.body.category_name
     })
-        .then(dbTagData => res.json(dbTagData))
+        .then(dbCategoryData => res.json(dbCategoryData))
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
@@ -66,19 +63,18 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-
-    //Update by ID
-    Tag.update(req.body, {
+    // update a category by id
+    Category.update(req.body, {
         where: {
             id: req.params.id
         }
     })
-        .then(dbTagData => {
-            if (!dbTagData[0]) {
-                res.status(404).json({ message: 'Invalid ID. No tag found.' });
+        .then(dbCategoryData => {
+            if (!dbCategoryData[0]) {
+                res.status(404).json({ message: 'No Category found with this id' });
                 return;
             }
-            res.json(dbTagData);
+            res.json(dbCategoryData);
         })
         .catch(err => {
             console.log(err);
@@ -87,18 +83,18 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-    // delete by ID
-    Tag.destroy({
+    // delete a category by id
+    Category.destroy({
         where: {
             id: req.params.id
         }
     })
-        .then(dbTagData => {
-            if (!dbTagData) {
-                res.status(404).json({ message: 'Invalid ID. No tag found.' });
+        .then(dbCategoryData => {
+            if (!dbCategoryData) {
+                res.status(404).json({ message: 'No category found with this id' });
                 return;
             }
-            res.json(dbTagData);
+            res.json(dbCategoryData);
         })
         .catch(err => {
             console.log(err);
@@ -107,4 +103,3 @@ router.delete('/:id', (req, res) => {
 });
 
 module.exports = router;
-
