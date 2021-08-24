@@ -1,6 +1,6 @@
 # E-Commerce-Back-End
 
-This program demonsteates the back end use of an e-commerce site. It includes an Express.js API that uses Sequelize to interact with the MySQL database.
+This program demonstrates the back end use of an e-commerce site. It includes an Express.js API that uses Sequelize to interact with the MySQL database.
 
 The following GIF demonstrates the functioning mysql, npm run seed, and npm run start commands.
 The data is seeded and the code can be viewed on Insomnia.
